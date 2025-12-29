@@ -1,6 +1,8 @@
+<head></head>
+
 Here is the corrected and formatted Markdown content. I have cleaned up the bullet point indentation, removed extraneous non-breaking space characters from the Python code, and ensured all headers and code blocks are properly nested for a GitHub repository.
 
----
+* * *
 
 # 🧬 Ensemble Assembly: Flye vs. Raven
 
@@ -8,39 +10,37 @@ Running both **Flye** and **Raven** is a common practice in bioinformatics known
 
 Here is the technical and logical breakdown of why running both is essential for a robust assembly.
 
----
+* * *
 
 ## ⚙️ 1. Algorithmic Diversity: Repeat Graphs vs. OLC
 
 Each tool looks at your DNA through a different lens. If one tool gets "stuck" in a complex region, the other might find a path through it.
 
-* **Flye (The "Repeat Graph" Logic):**
-* Uses an **A-Bruijn graph** (a variation of a repeat graph).
-* Exceptionally good at identifying and resolving **repetitive regions** (like transposons or rRNA clusters).
-* Generally the "gold standard" for small plasmids and metagenomes because it can handle uneven coverage levels.
+- **Flye (The "Repeat Graph" Logic):**
 
+    - Uses an **A-Bruijn graph** (a variation of a repeat graph).
+    - Exceptionally good at identifying and resolving **repetitive regions** (like transposons or rRNA clusters).
+    - Generally the "gold standard" for small plasmids and metagenomes because it can handle uneven coverage levels.
+- **Raven (The "OLC" Logic):**
 
-* **Raven (The "OLC" Logic):**
-* A modern **Overlap-Layout-Consensus** assembler.
-* Focuses on high-speed all-pairs alignment. It is often much faster than Flye and uses significantly less memory.
-* Highly **robust to noisy data** and often produces longer "contigs" in less time.
+    - A modern **Overlap-Layout-Consensus** assembler.
+    - Focuses on high-speed all-pairs alignment. It is often much faster than Flye and uses significantly less memory.
+    - Highly **robust to noisy data** and often produces longer "contigs" in less time.
 
-
-
----
+* * *
 
 ## 🔍 2. Why you should run both (The "Deduction" Phase)
 
 In science, we use **Deductive Validation**. By running both, you can compare the outputs to see where they agree.
 
-| Reason | Logic |
+| **Reason** | **Logic** |
 | --- | --- |
 | **Validation of "Ground Truth"** | If both produce a circular 4.6 Mbp chromosome for *E. coli*, you have high confidence. If they differ, you have structural ambiguity. |
 | **Structural Variant Detection** | Flye might "collapse" a repeat that Raven "spans," or vice-versa. Running both helps identify misassemblies. |
 | **Completeness (BUSCO)** | Flye might have a better **N50**, but Raven might have a better **BUSCO** score. You choose the assembly representing the best biology. |
 | **Plasmid Recovery** | Flye is famous for finding small plasmids; Raven might occasionally filter these out as "noise." |
 
----
+* * *
 
 ## 📊 3. How to Compare Them (The "Reduction" Phase)
 
@@ -53,123 +53,25 @@ Once you run both, you use a tool like **QUAST** or **BUSCO** to perform a stati
 3. Check the **Circularization**: Did one close the loop while the other stayed linear?
 4. Check **BUSCO**: Which one contains more essential genes?
 
----
+* * *
 
 ## 💻 SLURM Code Block: Running Both Assemblers
 
 Add this to your `scripts/` folder to run both in parallel on the Innovator HPC.
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=Dual_Assembly
-#SBATCH --partition=comp
-#SBATCH --cpus-per-task=16
-#SBATCH --mem=64G
-
-module load anaconda
-source activate assembly_env
-
-# 1. Run Flye (Mechanistic Repeat Graph)
-flye --nano-hq data/*.fastq.gz --out-dir output/flye_results --threads 16
-
-# 2. Run Raven (OLC Heuristics)
-# Raven outputs a .fasta file to standard output
-raven --threads 16 data/*.fastq.gz > output/raven_results.fasta
-
-```
-
----
+<response-element class="" ng-version="0.0.0-PLACEHOLDER"><!----><!----><!----><!----><!----><code-block _nghost-ng-c3098535048="" class="ng-tns-c3098535048-633 ng-star-inserted"><!----><!----><div _ngcontent-ng-c3098535048="" class="code-block ng-tns-c3098535048-633 ng-animate-disabled ng-trigger ng-trigger-codeBlockRevealAnimation" jslog="223238;track:impression,attention;BardVeMetadataKey:[[&quot;r_3b6b06040d97b34f&quot;,&quot;c_a1332b323f818de9&quot;,null,&quot;rc_2768febd1074591c&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" data-hveid="0" decode-data-ved="1" data-ved="0CAAQhtANahgKEwjL577H2eORAxUAAAAAHQAAAAAQowg"><div _ngcontent-ng-c3098535048="" class="code-block-decoration header-formatted gds-title-s ng-tns-c3098535048-633 ng-star-inserted"><span _ngcontent-ng-c3098535048="" class="ng-tns-c3098535048-633">Bash</span><div _ngcontent-ng-c3098535048="" class="buttons ng-tns-c3098535048-633 ng-star-inserted"><button _ngcontent-ng-c3098535048="" aria-label="Copy code" mat-icon-button="" mattooltip="Copy code" class="mdc-icon-button mat-mdc-icon-button mat-mdc-button-base mat-mdc-tooltip-trigger copy-button ng-tns-c3098535048-633 mat-unthemed ng-star-inserted" mat-ripple-loader-uninitialized="" mat-ripple-loader-class-name="mat-mdc-button-ripple" mat-ripple-loader-centered="" jslog="179062;track:generic_click,impression;BardVeMetadataKey:[[&quot;r_3b6b06040d97b34f&quot;,&quot;c_a1332b323f818de9&quot;,null,&quot;rc_2768febd1074591c&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]];mutable:true"><span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span><mat-icon _ngcontent-ng-c3098535048="" role="img" fonticon="content_copy" class="mat-icon notranslate gds-icon-s google-symbols mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font" data-mat-icon-name="content_copy"></mat-icon><span class="mat-focus-indicator"></span><span class="mat-mdc-button-touch-target"></span></button><!----><!----></div><!----></div><!----><div _ngcontent-ng-c3098535048="" class="formatted-code-block-internal-container ng-tns-c3098535048-633"><div _ngcontent-ng-c3098535048="" class="animated-opacity ng-tns-c3098535048-633"><pre _ngcontent-ng-c3098535048="" class="ng-tns-c3098535048-633"><code _ngcontent-ng-c3098535048="" role="text" data-test-id="code-content" class="code-container formatted ng-tns-c3098535048-633"><span class="hljs-meta">#!/bin/bash</span><span class="hljs-comment">#SBATCH --job-name=Dual_Assembly</span><span class="hljs-comment">#SBATCH --partition=comp</span><span class="hljs-comment">#SBATCH --cpus-per-task=16</span><span class="hljs-comment">#SBATCH --mem=64G</span> module load anaconda<span class="hljs-built_in">source</span> activate assembly_env <span class="hljs-comment"># 1. Run Flye (Mechanistic Repeat Graph)</span>flye --nano-hq data/*.fastq.gz --out-dir output/flye_results --threads 16 <span class="hljs-comment"># 2. Run Raven (OLC Heuristics)</span><span class="hljs-comment"># Raven outputs a .fasta file to standard output</span>raven --threads 16 data/*.fastq.gz &gt; output/raven_results.fasta</code></pre><!----></div></div></div><!----><!----></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+* * *
 
 ## 🐍 Python Automation: `compare_assemblies.py`
 
 This script applies **deductive logic** to the assembly outputs by parsing metadata and generating a "Decision Matrix." Save this as `scripts/compare_assemblies.py`.
-
-```python
-import os
-import pandas as pd
-
-def get_fasta_stats(file_path):
-    """
-    Mechanistically parses a FASTA file to calculate basic N50 and total length.
-    """
-    lengths = []
-    if not os.path.exists(file_path):
-        return None
-        
-    with open(file_path, 'r') as f:
-        current_len = 0
-        for line in f:
-            if line.startswith('>'):
-                if current_len > 0:
-                    lengths.append(current_len)
-                current_len = 0
-            else:
-                current_len += len(line.strip())
-        lengths.append(current_len)
-    
-    lengths.sort(reverse=True)
-    total_len = sum(lengths)
-    
-    # Calculate N50
-    cum_sum = 0
-    n50 = 0
-    for l in lengths:
-        cum_sum += l
-        if cum_sum >= total_len / 2:
-            n50 = l
-            break
-            
-    return total_len, n50, len(lengths)
-
-# Define paths for the Innovator HPC structure
-results = {
-    "Flye": "output/flye_results/assembly.fasta",
-    "Raven": "output/raven_results.fasta"
-}
-
-summary_data = []
-
-for assembler, path in results.items():
-    stats = get_fasta_stats(path)
-    if stats:
-        total, n50, count = stats
-        summary_data.append({
-            "Assembler": assembler,
-            "Total Length (bp)": total,
-            "N50 (bp)": n50,
-            "Contig Count": count
-        })
-    else:
-        print(f"Warning: {path} not found.")
-
-# Generate Comparison Table
-df = pd.DataFrame(summary_data)
-print("\n--- Assembly Comparison Report ---")
-print(df.to_string(index=False))
-
-# Logic-based recommendation
-if not df.empty:
-    best_n50 = df.loc[df['N50 (bp)'].idxmax()]['Assembler']
-    print(f"\n[Deduction]: Based on contiguity (N50), {best_n50} is the superior assembly.")
-
-```
-
----
+<response-element class="" ng-version="0.0.0-PLACEHOLDER"><!----><!----><!----><!----><!----><code-block _nghost-ng-c3098535048="" class="ng-tns-c3098535048-634 ng-star-inserted"><!----><!----><div _ngcontent-ng-c3098535048="" class="code-block ng-tns-c3098535048-634 ng-animate-disabled ng-trigger ng-trigger-codeBlockRevealAnimation" jslog="223238;track:impression,attention;BardVeMetadataKey:[[&quot;r_3b6b06040d97b34f&quot;,&quot;c_a1332b323f818de9&quot;,null,&quot;rc_2768febd1074591c&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" data-hveid="0" decode-data-ved="1" data-ved="0CAAQhtANahgKEwjL577H2eORAxUAAAAAHQAAAAAQpAg"><div _ngcontent-ng-c3098535048="" class="code-block-decoration header-formatted gds-title-s ng-tns-c3098535048-634 ng-star-inserted"><span _ngcontent-ng-c3098535048="" class="ng-tns-c3098535048-634">Python</span><div _ngcontent-ng-c3098535048="" class="buttons ng-tns-c3098535048-634 ng-star-inserted"><button _ngcontent-ng-c3098535048="" aria-label="Copy code" mat-icon-button="" mattooltip="Copy code" class="mdc-icon-button mat-mdc-icon-button mat-mdc-button-base mat-mdc-tooltip-trigger copy-button ng-tns-c3098535048-634 mat-unthemed ng-star-inserted" mat-ripple-loader-uninitialized="" mat-ripple-loader-class-name="mat-mdc-button-ripple" mat-ripple-loader-centered="" jslog="179062;track:generic_click,impression;BardVeMetadataKey:[[&quot;r_3b6b06040d97b34f&quot;,&quot;c_a1332b323f818de9&quot;,null,&quot;rc_2768febd1074591c&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]];mutable:true"><span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span><mat-icon _ngcontent-ng-c3098535048="" role="img" fonticon="content_copy" class="mat-icon notranslate gds-icon-s google-symbols mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font" data-mat-icon-name="content_copy"></mat-icon><span class="mat-focus-indicator"></span><span class="mat-mdc-button-touch-target"></span></button><!----><!----></div><!----></div><!----><div _ngcontent-ng-c3098535048="" class="formatted-code-block-internal-container ng-tns-c3098535048-634"><div _ngcontent-ng-c3098535048="" class="animated-opacity ng-tns-c3098535048-634"><pre _ngcontent-ng-c3098535048="" class="ng-tns-c3098535048-634"><code _ngcontent-ng-c3098535048="" role="text" data-test-id="code-content" class="code-container formatted ng-tns-c3098535048-634"><span class="hljs-keyword">import</span> os<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_fasta_stats</span>(<span class="hljs-params">file_path</span>):</span> <span class="hljs-string">""" Mechanistically parses a FASTA file to calculate basic N50 and total length. """</span> lengths = [] <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(file_path): <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file_path, <span class="hljs-string">'r'</span>) <span class="hljs-keyword">as</span> f: current_len = <span class="hljs-number">0</span> <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> f: <span class="hljs-keyword">if</span> line.startswith(<span class="hljs-string">'&gt;'</span>): <span class="hljs-keyword">if</span> current_len &gt; <span class="hljs-number">0</span>: lengths.append(current_len) current_len = <span class="hljs-number">0</span> <span class="hljs-keyword">else</span>: current_len += <span class="hljs-built_in">len</span>(line.strip()) lengths.append(current_len) lengths.sort(reverse=<span class="hljs-literal">True</span>) total_len = <span class="hljs-built_in">sum</span>(lengths) <span class="hljs-comment"># Calculate N50</span> cum_sum = <span class="hljs-number">0</span> n50 = <span class="hljs-number">0</span> <span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> lengths: cum_sum += l <span class="hljs-keyword">if</span> cum_sum &gt;= total_len / <span class="hljs-number">2</span>: n50 = l <span class="hljs-keyword">break</span> <span class="hljs-keyword">return</span> total_len, n50, <span class="hljs-built_in">len</span>(lengths) <span class="hljs-comment"># Define paths for the Innovator HPC structure</span>results = { <span class="hljs-string">"Flye"</span>: <span class="hljs-string">"output/flye_results/assembly.fasta"</span>, <span class="hljs-string">"Raven"</span>: <span class="hljs-string">"output/raven_results.fasta"</span>} summary_data = [] <span class="hljs-keyword">for</span> assembler, path <span class="hljs-keyword">in</span> results.items(): stats = get_fasta_stats(path) <span class="hljs-keyword">if</span> stats: total, n50, count = stats summary_data.append({ <span class="hljs-string">"Assembler"</span>: assembler, <span class="hljs-string">"Total Length (bp)"</span>: total, <span class="hljs-string">"N50 (bp)"</span>: n50, <span class="hljs-string">"Contig Count"</span>: count }) <span class="hljs-keyword">else</span>: print(<span class="hljs-string">f"Warning: <span class="hljs-subst">{path}</span> not found."</span>) <span class="hljs-comment"># Generate Comparison Table</span>df = pd.DataFrame(summary_data)print(<span class="hljs-string">"\n--- Assembly Comparison Report ---"</span>)print(df.to_string(index=<span class="hljs-literal">False</span>)) <span class="hljs-comment"># Logic-based recommendation</span><span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> df.empty: best_n50 = df.loc[df[<span class="hljs-string">'N50 (bp)'</span>].idxmax()][<span class="hljs-string">'Assembler'</span>] print(<span class="hljs-string">f"\n[Deduction]: Based on contiguity (N50), <span class="hljs-subst">{best_n50}</span> is the superior assembly."</span>)</code></pre><!----></div></div></div><!----><!----></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+* * *
 
 ## 🛠 Integrating the Script
 
 To run this on the HPC, add this to your SLURM script or run it in an interactive session:
-
-```bash
-# Activate the environment with pandas installed
-source activate eval_env
-
-# Run the comparison
-python scripts/compare_assemblies.py
-
-```
-
----
+<response-element class="" ng-version="0.0.0-PLACEHOLDER"><!----><!----><!----><!----><!----><code-block _nghost-ng-c3098535048="" class="ng-tns-c3098535048-635 ng-star-inserted"><!----><!----><div _ngcontent-ng-c3098535048="" class="code-block ng-tns-c3098535048-635 ng-animate-disabled ng-trigger ng-trigger-codeBlockRevealAnimation" jslog="223238;track:impression,attention;BardVeMetadataKey:[[&quot;r_3b6b06040d97b34f&quot;,&quot;c_a1332b323f818de9&quot;,null,&quot;rc_2768febd1074591c&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" data-hveid="0" decode-data-ved="1" data-ved="0CAAQhtANahgKEwjL577H2eORAxUAAAAAHQAAAAAQpQg"><div _ngcontent-ng-c3098535048="" class="code-block-decoration header-formatted gds-title-s ng-tns-c3098535048-635 ng-star-inserted"><span _ngcontent-ng-c3098535048="" class="ng-tns-c3098535048-635">Bash</span><div _ngcontent-ng-c3098535048="" class="buttons ng-tns-c3098535048-635 ng-star-inserted"><button _ngcontent-ng-c3098535048="" aria-label="Copy code" mat-icon-button="" mattooltip="Copy code" class="mdc-icon-button mat-mdc-icon-button mat-mdc-button-base mat-mdc-tooltip-trigger copy-button ng-tns-c3098535048-635 mat-unthemed ng-star-inserted" mat-ripple-loader-uninitialized="" mat-ripple-loader-class-name="mat-mdc-button-ripple" mat-ripple-loader-centered="" jslog="179062;track:generic_click,impression;BardVeMetadataKey:[[&quot;r_3b6b06040d97b34f&quot;,&quot;c_a1332b323f818de9&quot;,null,&quot;rc_2768febd1074591c&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]];mutable:true"><span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span><mat-icon _ngcontent-ng-c3098535048="" role="img" fonticon="content_copy" class="mat-icon notranslate gds-icon-s google-symbols mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font" data-mat-icon-name="content_copy"></mat-icon><span class="mat-focus-indicator"></span><span class="mat-mdc-button-touch-target"></span></button><!----><!----></div><!----></div><!----><div _ngcontent-ng-c3098535048="" class="formatted-code-block-internal-container ng-tns-c3098535048-635"><div _ngcontent-ng-c3098535048="" class="animated-opacity ng-tns-c3098535048-635"><pre _ngcontent-ng-c3098535048="" class="ng-tns-c3098535048-635"><code _ngcontent-ng-c3098535048="" role="text" data-test-id="code-content" class="code-container formatted ng-tns-c3098535048-635"><span class="hljs-comment"># Activate the environment with pandas installed</span><span class="hljs-built_in">source</span> activate eval_env <span class="hljs-comment"># Run the comparison</span>python scripts/compare_assemblies.py</code></pre><!----></div></div></div><!----><!----></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+* * *
 
 ## 🔬 Mentee Challenge: The "Agreement" Logic
 
@@ -179,26 +81,12 @@ When looking at the output, investigate the following:
 2. **Contig Count:** If Flye produced 1 contig and Raven produced 5, which one is more likely to be a finished genome?
 3. **Inductive Reasoning:** Just because a tool has a higher N50 doesn't mean it's "better." What if the high N50 was created by an incorrect "chimeric" join?
 
----
+* * *
 
 ## 📊 Evaluation-Logic.md
 
 Save this in your `tutorials/` folder.
-
-```markdown
-# 📊 The Math of Assembly Evaluation
-
-### The N50 Statistic
-The N50 is a **weighted median**. It represents a point of "statistical equilibrium" where half of your assembly is contained in contigs of this size or larger.
-
-
-
-### Why we use Python for Comparison
-Manual inspection of `.fasta` files is **error-prone** and **non-reproducible**. By writing a script, we ensure:
-1. The logic is transparent and verifiable.
-2. The results can be audited by other scientists.
-3. We can scale the analysis to hundreds of genomes.
-
-```
-
+<response-element class="" ng-version="0.0.0-PLACEHOLDER"><!----><!----><!----><!----><!----><code-block _nghost-ng-c3098535048="" class="ng-tns-c3098535048-636 ng-star-inserted"><!----><!----><div _ngcontent-ng-c3098535048="" class="code-block ng-tns-c3098535048-636 ng-animate-disabled ng-trigger ng-trigger-codeBlockRevealAnimation" jslog="223238;track:impression,attention;BardVeMetadataKey:[[&quot;r_3b6b06040d97b34f&quot;,&quot;c_a1332b323f818de9&quot;,null,&quot;rc_2768febd1074591c&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" data-hveid="0" decode-data-ved="1" data-ved="0CAAQhtANahgKEwjL577H2eORAxUAAAAAHQAAAAAQpgg"><div _ngcontent-ng-c3098535048="" class="code-block-decoration header-formatted gds-title-s ng-tns-c3098535048-636 ng-star-inserted"><span _ngcontent-ng-c3098535048="" class="ng-tns-c3098535048-636">Markdown</span><div _ngcontent-ng-c3098535048="" class="buttons ng-tns-c3098535048-636 ng-star-inserted"><button _ngcontent-ng-c3098535048="" aria-label="Copy code" mat-icon-button="" mattooltip="Copy code" class="mdc-icon-button mat-mdc-icon-button mat-mdc-button-base mat-mdc-tooltip-trigger copy-button ng-tns-c3098535048-636 mat-unthemed ng-star-inserted" mat-ripple-loader-uninitialized="" mat-ripple-loader-class-name="mat-mdc-button-ripple" mat-ripple-loader-centered="" jslog="179062;track:generic_click,impression;BardVeMetadataKey:[[&quot;r_3b6b06040d97b34f&quot;,&quot;c_a1332b323f818de9&quot;,null,&quot;rc_2768febd1074591c&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]];mutable:true"><span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span><mat-icon _ngcontent-ng-c3098535048="" role="img" fonticon="content_copy" class="mat-icon notranslate gds-icon-s google-symbols mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font" data-mat-icon-name="content_copy"></mat-icon><span class="mat-focus-indicator"></span><span class="mat-mdc-button-touch-target"></span></button><!----><!----></div><!----></div><!----><div _ngcontent-ng-c3098535048="" class="formatted-code-block-internal-container ng-tns-c3098535048-636"><div _ngcontent-ng-c3098535048="" class="animated-opacity ng-tns-c3098535048-636"><pre _ngcontent-ng-c3098535048="" class="ng-tns-c3098535048-636"><code _ngcontent-ng-c3098535048="" role="text" data-test-id="code-content" class="code-container formatted ng-tns-c3098535048-636"><span class="hljs-section"># 📊 The Math of Assembly Evaluation</span> <span class="hljs-section">### The N50 Statistic</span>The N50 is a <span class="hljs-strong">**weighted median**</span>. It represents a point of "statistical equilibrium" where half of your assembly is contained in contigs of this size or larger. <span class="hljs-section">### Why we use Python for Comparison</span>Manual inspection of <span class="hljs-code">`.fasta`</span> files is <span class="hljs-strong">**error-prone**</span> and <span class="hljs-strong">**non-reproducible**</span>. By writing a script, we ensure:<span class="hljs-bullet">1.</span> The logic is transparent and verifiable.<span class="hljs-bullet">2.</span> The results can be audited by other scientists.<span class="hljs-bullet">3.</span> We can scale the analysis to hundreds of genomes.</code></pre><!----></div></div></div><!----><!----></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
 Would you like me to show you how to automate the **BUSCO** check within this same Python script to add a "Biological Completeness" column to your table?
+
+<!---->
