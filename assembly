@@ -1,44 +1,52 @@
+Here is the corrected and formatted Markdown content. I have cleaned up the bullet point indentation, removed extraneous non-breaking space characters from the Python code, and ensured all headers and code blocks are properly nested for a GitHub repository.
+
+---
+
+# 🧬 Ensemble Assembly: Flye vs. Raven
+
 Running both **Flye** and **Raven** is a common practice in bioinformatics known as an **ensemble or multi-assembler approach**. While both tools are designed for long reads (ONT/PacBio), they use different mathematical "logic" to solve the genome.
 
 Here is the technical and logical breakdown of why running both is essential for a robust assembly.
 
 ---
 
-### 1. Algorithmic Diversity: Repeat Graphs vs. OLC
+## ⚙️ 1. Algorithmic Diversity: Repeat Graphs vs. OLC
 
 Each tool looks at your DNA through a different lens. If one tool gets "stuck" in a complex region, the other might find a path through it.
 
-* **Flye (The "Repeat Graph" Logic):** * Flye uses an **A-Bruijn graph** (a variation of a repeat graph).
-* It is exceptionally good at identifying and resolving **repetitive regions** (like transposons or rRNA clusters).
-* It is generally the "gold standard" for small plasmids and metagenomes because it can handle uneven coverage levels (where some parts of the genome have more data than others).
+* **Flye (The "Repeat Graph" Logic):**
+* Uses an **A-Bruijn graph** (a variation of a repeat graph).
+* Exceptionally good at identifying and resolving **repetitive regions** (like transposons or rRNA clusters).
+* Generally the "gold standard" for small plasmids and metagenomes because it can handle uneven coverage levels.
 
 
-* **Raven (The "OLC" Logic):** * Raven is a modern **Overlap-Layout-Consensus** assembler.
-* It focuses on high-speed all-pairs alignment. It is often much faster than Flye and uses significantly less memory.
-* Raven is highly **robust to noisy data** and often produces longer "contigs" (contiguous sequences) in less time.
+* **Raven (The "OLC" Logic):**
+* A modern **Overlap-Layout-Consensus** assembler.
+* Focuses on high-speed all-pairs alignment. It is often much faster than Flye and uses significantly less memory.
+* Highly **robust to noisy data** and often produces longer "contigs" in less time.
 
 
 
 ---
 
-### 2. Why you should run both (The "Deduction" Phase)
+## 🔍 2. Why you should run both (The "Deduction" Phase)
 
 In science, we use **Deductive Validation**. By running both, you can compare the outputs to see where they agree.
 
 | Reason | Logic |
 | --- | --- |
-| **Validation of "Ground Truth"** | If both Flye and Raven produce a circular 4.6 Mbp chromosome for *E. coli*, you have high confidence in that result. If they differ, you know there is a structural ambiguity. |
-| **Structural Variant Detection** | Flye might "collapse" a repeat that Raven "spans," or vice-versa. Running both helps you identify potential misassemblies. |
-| **Completeness (BUSCO)** | Sometimes Flye has a better **N50** (contiguity), but Raven has a better **BUSCO** score (gene completeness). You want to choose the assembly that best represents the biology. |
-| **Plasmid Recovery** | Flye is famous for finding small plasmids that other assemblers often throw away as "noise." Raven might miss a 2kb plasmid that Flye catches. |
+| **Validation of "Ground Truth"** | If both produce a circular 4.6 Mbp chromosome for *E. coli*, you have high confidence. If they differ, you have structural ambiguity. |
+| **Structural Variant Detection** | Flye might "collapse" a repeat that Raven "spans," or vice-versa. Running both helps identify misassemblies. |
+| **Completeness (BUSCO)** | Flye might have a better **N50**, but Raven might have a better **BUSCO** score. You choose the assembly representing the best biology. |
+| **Plasmid Recovery** | Flye is famous for finding small plasmids; Raven might occasionally filter these out as "noise." |
 
 ---
 
-### 3. How to Compare Them (The "Reduction" Phase)
+## 📊 3. How to Compare Them (The "Reduction" Phase)
 
 Once you run both, you use a tool like **QUAST** or **BUSCO** to perform a statistical reduction of the results.
 
-**Mentee Task: The Assembly Comparison**
+### Mentee Task: The Assembly Comparison
 
 1. Run Flye and Raven on the same dataset.
 2. Check the **N50**: Which one produced longer pieces?
@@ -47,9 +55,9 @@ Once you run both, you use a tool like **QUAST** or **BUSCO** to perform a stati
 
 ---
 
-### 💻 SLURM Code Block: Running Both Assemblers
+## 💻 SLURM Code Block: Running Both Assemblers
 
-You can add this to your `scripts/` folder to run both in parallel on the Innovator HPC.
+Add this to your `scripts/` folder to run both in parallel on the Innovator HPC.
 
 ```bash
 #!/bin/bash
@@ -65,25 +73,16 @@ source activate assembly_env
 flye --nano-hq data/*.fastq.gz --out-dir output/flye_results --threads 16
 
 # 2. Run Raven (OLC Heuristics)
-# Raven takes raw fastq and outputs a .fasta file
+# Raven outputs a .fasta file to standard output
 raven --threads 16 data/*.fastq.gz > output/raven_results.fasta
 
 ```
 
-### 🔬 Critical Thinking for the Mentee
+---
 
-* **The "Agreement" Logic:** If two different mathematical algorithms (Graph vs. OLC) arrive at the same answer, is that answer more likely to be true? Why?
-* **The Efficiency Debate:** If Raven finishes in 1 hour and Flye takes 5 hours, but they produce the same N50, which one would you choose for a project with 100 samples?
+## 🐍 Python Automation: `compare_assemblies.py`
 
-
-
-To automate the comparison between **Flye** and **Raven**, we will use a Python script. This script applies **deductive logic** to the assembly outputs by parsing their metadata and generating a "Decision Matrix."
-
-This script will run in your `eval_env` on the **Innovator HPC**. It compares the **Contiguity** (how long the pieces are) and the **Topology** (whether the genome is circularized).
-
-### 📑 Assembly-Comparison.py
-
-Save this code as `scripts/compare_assemblies.py`.
+This script applies **deductive logic** to the assembly outputs by parsing metadata and generating a "Decision Matrix." Save this as `scripts/compare_assemblies.py`.
 
 ```python
 import os
@@ -94,6 +93,9 @@ def get_fasta_stats(file_path):
     Mechanistically parses a FASTA file to calculate basic N50 and total length.
     """
     lengths = []
+    if not os.path.exists(file_path):
+        return None
+        
     with open(file_path, 'r') as f:
         current_len = 0
         for line in f:
@@ -119,7 +121,7 @@ def get_fasta_stats(file_path):
             
     return total_len, n50, len(lengths)
 
-# Define paths (adjust based on your Innovator file structure)
+# Define paths for the Innovator HPC structure
 results = {
     "Flye": "output/flye_results/assembly.fasta",
     "Raven": "output/raven_results.fasta"
@@ -128,8 +130,9 @@ results = {
 summary_data = []
 
 for assembler, path in results.items():
-    if os.path.exists(path):
-        total, n50, count = get_fasta_stats(path)
+    stats = get_fasta_stats(path)
+    if stats:
+        total, n50, count = stats
         summary_data.append({
             "Assembler": assembler,
             "Total Length (bp)": total,
@@ -153,9 +156,9 @@ if not df.empty:
 
 ---
 
-## 🛠 Integrating the Script into your Workflow
+## 🛠 Integrating the Script
 
-To run this on the HPC, your mentee should add this step to their SLURM script or run it in an interactive session.
+To run this on the HPC, add this to your SLURM script or run it in an interactive session:
 
 ```bash
 # Activate the environment with pandas installed
@@ -170,31 +173,32 @@ python scripts/compare_assemblies.py
 
 ## 🔬 Mentee Challenge: The "Agreement" Logic
 
-When the mentee looks at the output of this Python script, have them investigate the following:
+When looking at the output, investigate the following:
 
-1. **Length Congruence:** If the `Total Length` for Flye is 4.6MB and Raven is 4.8MB, where did the extra 200kb come from? (Hint: Check for **overlapping ends** or duplicated sequences).
+1. **Length Congruence:** If the Total Length for Flye is 4.6MB and Raven is 4.8MB, where did the extra 200kb come from? (Hint: Check for overlapping ends).
 2. **Contig Count:** If Flye produced 1 contig and Raven produced 5, which one is more likely to be a finished genome?
 3. **Inductive Reasoning:** Just because a tool has a higher N50 doesn't mean it's "better." What if the high N50 was created by an incorrect "chimeric" join?
 
 ---
 
-### Final Documentation: `Evaluation-Logic.md`
+## 📊 Evaluation-Logic.md
 
-Add this code block to a new file in your `tutorials/` folder to explain the math to the mentee.
+Save this in your `tutorials/` folder.
 
 ```markdown
 # 📊 The Math of Assembly Evaluation
 
 ### The N50 Statistic
-The N50 is a **weighted median**. It represents a point of "statistical equilibrium" where half of your assembly is contained in contigs of this size or larger. 
+The N50 is a **weighted median**. It represents a point of "statistical equilibrium" where half of your assembly is contained in contigs of this size or larger.
+
+
 
 ### Why we use Python for Comparison
-Manual inspection of `.fasta` files is **error-prone** and **non-reproducible**. By writing a script, we ensure that:
-1. The logic is transparent.
+Manual inspection of `.fasta` files is **error-prone** and **non-reproducible**. By writing a script, we ensure:
+1. The logic is transparent and verifiable.
 2. The results can be audited by other scientists.
-3. We can handle hundreds of genomes simultaneously.
-
-
+3. We can scale the analysis to hundreds of genomes.
 
 ```
 
+Would you like me to show you how to automate the **BUSCO** check within this same Python script to add a "Biological Completeness" column to your table?
