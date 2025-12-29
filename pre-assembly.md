@@ -1,6 +1,4 @@
 
----
-
 ```markdown
 # 🛠 Pre-Assembly Tutorial: Long-Read Curation
 
@@ -12,6 +10,8 @@ Before we trigger the mechanistic reconstruction of the genome, we must perform 
 Pre-assembly tasks like `SeqKit` are fast but can be memory-intensive if processing large files. We will use an **Interactive Session** for this work.
 
 **How to request resources:**
+```
+
 ```bash
 # Request 8 CPUs and 32GB of RAM for 2 hours
 srun --partition=comp --nodes=1 --cpus-per-task=8 --mem=32G --pty bash
