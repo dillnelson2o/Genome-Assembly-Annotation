@@ -1,0 +1,12 @@
+name: annotation_env
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - circlator
+  - prokka
+  - evo2
+  - blast
+  - hmmer

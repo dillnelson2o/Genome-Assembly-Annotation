@@ -1,0 +1,13 @@
+name: assembly_env
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - flye
+  - raven-assembler
+  - seqkit
+  - nanopolish
+  - racon
+  - minimap2
+  - samtools

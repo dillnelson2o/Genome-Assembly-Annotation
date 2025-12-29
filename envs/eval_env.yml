@@ -1,0 +1,11 @@
+name: eval_env
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - busco
+  - quast
+  - seqkit
+  - pandas
+  - biopython
