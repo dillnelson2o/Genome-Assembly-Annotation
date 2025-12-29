@@ -1,5 +1,4 @@
 
-```markdown
 # 🛠 Pre-Assembly Tutorial: Long-Read Curation
 
 Before we trigger the mechanistic reconstruction of the genome, we must perform **Quality Control (QC)** and **Read Manipulation**. Our goal is to increase the **Mean Read Quality** and **N50 length** of our input data.
@@ -10,7 +9,6 @@ Before we trigger the mechanistic reconstruction of the genome, we must perform 
 Pre-assembly tasks like `SeqKit` are fast but can be memory-intensive if processing large files. We will use an **Interactive Session** for this work.
 
 **How to request resources:**
-```
 
 ```bash
 # Request 8 CPUs and 32GB of RAM for 2 hours
