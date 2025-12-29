@@ -1,0 +1,128 @@
+
+```markdown
+# 🖥️ GitHub on the Command Line: Version Control for Genomics
+
+On the **Innovator HPC**, we use the `git` command-line tool to track our "intellectual trail." This ensures that if we change a parameter in our assembly script and everything breaks, we can **deductively backtrack** to the last working version.
+
+---
+
+## 1. Initial Identity Configuration
+Before running any commands, you must tell the HPC who you are. This metadata is attached to every "commit" (save point) you create.
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your_email@example.com"
+
+```
+
+---
+
+## 2. The Git Workflow (The "Loop of Logic")
+
+Git follows a specific sequence of actions to move code from your local HPC directory to the GitHub server.
+
+### Step A: Initialize and Connect
+
+If you haven't already cloned the repo, initialize your current folder:
+
+```bash
+# Navigate to your project
+cd ~/genome_project
+
+# Initialize the hidden .git directory
+git init
+
+# Connect your HPC folder to the GitHub website
+git remote add origin [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
+
+```
+
+### Step B: The "Staging" Area
+
+Think of the staging area as a "pre-flight check." You select which files are ready to be saved.
+
+```bash
+# Add your assembly script
+git add scripts/run_flye.slurm
+
+# Add your evaluation logic
+git add tutorials/Evaluation-Logic.md
+
+```
+
+### Step C: The "Commit" (The Permanent Record)
+
+A commit is a snapshot of your project. Every commit requires a message describing **why** a change was made.
+
+```bash
+git commit -m "Add circularity check logic to Python evaluation script"
+
+```
+
+### Step D: The "Push" (Uploading to GitHub)
+
+This sends your local snapshots to the cloud so your mentor can review them.
+
+```bash
+git push origin main
+
+```
+
+---
+
+## 🛡️ Security: The `.gitignore` File
+
+**CRITICAL:** Genomic data is massive. We never, ever upload raw `.fastq` or `.fasta` files to GitHub. GitHub is for **code**, not **data**.
+
+Create a file named `.gitignore` in your project root:
+
+```bash
+nano .gitignore
+
+```
+
+**Paste these rules into the file:**
+
+```text
+# Ignore raw data
+data/*.fastq.gz
+data/*.fastq
+
+# Ignore large assembly outputs
+output/
+logs/*.log
+
+# Ignore Conda environments
+envs/
+
+```
+
+---
+
+## 🔬 Mentee Challenge: The "Diff" Logic
+
+If you change a line in your `assembly_eval.py` script, run this command before you commit:
+
+```bash
+git diff scripts/assembly_eval.py
+
+```
+
+* **Question:** How does `git` "know" exactly which characters changed?
+* **The Logic:** Git uses a **hashing algorithm (SHA-1)** to compare the state of your files. If even one space is added, the "hash" changes, signaling a modification.
+
+---
+
+## 🚀 Summary Checklist
+
+1. **`git status`**: Check what has changed.
+2. **`git add`**: Prepare changes for saving.
+3. **`git commit`**: Save the snapshot with a logical note.
+4. **`git push`**: Sync with the cloud.
+
+```
+
+### Next Step for the Mentee
+Would you like me to show you how to generate a **GitHub Personal Access Token (PAT)**? Since 2021, GitHub requires a token instead of a password for command-line access, which is often the first "stumbling block" for students on an HPC.
+
+```
